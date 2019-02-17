@@ -2,15 +2,13 @@ package cn.itcast.controller;
 
 import cn.itcast.domain.PageBean;
 import cn.itcast.domain.User;
-import cn.itcast.exception.BeanException;
 import cn.itcast.service.UserService;
-import com.sun.security.ntlm.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.tools.tree.NewArrayExpression;
+
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -156,27 +154,27 @@ public class UserController {
     * @Return: java.lang.String
     * @Description: 更新用户数据
     **/
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public String updateUser(User user,MultipartFile upload) throws Exception {
-        //1.判断上传文件格式是否正确
-        String contentType = upload.getContentType();
-        if (!contentType.contains("image/")){
-            throw new BeanException("文件格式不正确，请传入图片");
-        }
-        //2.获取存储服务器路径
-        String path = "http://localhost:8081/simple_web_war_exploded/uploads/";
-        //3.获取文件名称
-        String filename = upload.getOriginalFilename();
-        filename=UUID.randomUUID().toString().replace("-", "").toUpperCase()+"_"+filename;
-        //3.创建客户端对象
-        Client client = Client.create();
-        //4.连接存储服务器
-        WebResource webResource = client.resource(path+filename);
-        //5.上传文件
-        webResource.put(upload.getBytes());
-        userService.updateUser(user);
-        return "forward:/WEB-INF/page/login.jsp";
-    }
+//    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+//    public String updateUser(User user,MultipartFile upload) throws Exception {
+//        //1.判断上传文件格式是否正确
+//        String contentType = upload.getContentType();
+//        if (!contentType.contains("image/")){
+//            throw new BeanException("文件格式不正确，请传入图片");
+//        }
+//        //2.获取存储服务器路径
+//        String path = "http://localhost:8081/simple_web_war_exploded/uploads/";
+//        //3.获取文件名称
+//        String filename = upload.getOriginalFilename();
+//        filename=UUID.randomUUID().toString().replace("-", "").toUpperCase()+"_"+filename;
+//        //3.创建客户端对象
+//        Client client = Client.create();
+//        //4.连接存储服务器
+//        WebResource webResource = client.resource(path+filename);
+//        //5.上传文件
+//        webResource.put(upload.getBytes());
+//        userService.updateUser(user);
+//        return "forward:/WEB-INF/page/login.jsp";
+//    }
 
     @RequestMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable int id, @RequestHeader("Referer") String referer) {
