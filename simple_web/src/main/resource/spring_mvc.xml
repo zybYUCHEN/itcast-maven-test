@@ -30,7 +30,7 @@
     <bean id="conversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <set>
-                <bean class="cn.itcast.util.StringToDate"/>
+                <bean class="cn.itcast.util.Component.typeConverter.StringToDate"/>
             </set>
         </property>
     </bean>
@@ -43,7 +43,7 @@
     </bean>
 
     <!--配置自定义异常处理器-->
-    <bean id="beanExceptionResolver" class="cn.itcast.exception.resolver.BeanExceptionResolver"/>
+    <bean id="beanExceptionResolver" class="cn.itcast.util.Component.exResolver.resolver.BeanExceptionResolver"/>
 
     <!--配置拦截器-->
     <mvc:interceptors>
@@ -52,7 +52,7 @@
             <mvc:exclude-mapping path="/user/login"/>
             <mvc:exclude-mapping path="/user/login/{id}"/>
             <mvc:exclude-mapping path="/checkCode"/>
-            <bean id="accessInterceptor" class="cn.itcast.interceptor.AccessInterceptor"/>
+            <bean id="accessInterceptor" class="cn.itcast.util.Component.interceptor.AccessInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
