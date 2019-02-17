@@ -21,6 +21,10 @@ public class User implements Serializable {
     private String email;
     private String photo;
 
+    public static void main(String[] args) {
+        System.out.println("cool...");
+    }
+
     @Override
     public String toString() {
         return "User{" +

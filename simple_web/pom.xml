@@ -170,11 +170,6 @@
             <version>1.18.1</version>
         </dependency>
         <!--Oracle10g驱动jar包-->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.2</version>
-        </dependency>
     </dependencies>
 
     <build>
