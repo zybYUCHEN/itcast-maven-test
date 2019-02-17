@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String email;
     private String photo;
 
+    private String jx;
     @Override
     public String toString() {
         return "User{" +
