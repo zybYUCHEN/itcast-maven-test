@@ -73,7 +73,7 @@
     <!--该拦截器会处理所有转发目标为JSP 的请求，更改请求方法为 POST。-->
     <filter>
         <filter-name>forwardedHttpMethodFilter</filter-name>
-        <filter-class>cn.itcast.filter.ForwardedHttpMethodFilter</filter-class>
+        <filter-class>cn.itcast.util.Component.filter.ForwardedHttpMethodFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>forwardedHttpMethodFilter</filter-name>
