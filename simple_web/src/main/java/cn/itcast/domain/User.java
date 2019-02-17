@@ -25,6 +25,7 @@ public class User implements Serializable {
         System.out.println("cool...");
     }
 
+    private String jx;
     @Override
     public String toString() {
         return "User{" +
