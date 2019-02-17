@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--1.开启spring注解支持-->
+    <context:component-scan base-package="cn.itcast"/>
+
+    <!--2.开启springmvc注解支持-->
+    <mvc:annotation-driven conversion-service="conversionServiceFactoryBean"/>
+
+    <!--所有静态资源走默认servlet，不走前端控制器，也不走拦截器
+        还需要在web.xml 配置默认servlet，且必须配置在前端控制器之前-->
+    <mvc:default-servlet-handler/>
+
+    <!--3.配置视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/page/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--4.配置自定义类型转换器-->
+    <bean id="conversionServiceFactoryBean" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="cn.itcast.util.StringToDate"/>
+            </set>
+        </property>
+    </bean>
+    <!--配置文件解析器，这个解析器的id必须为multipartResolver，否则前端控制器找不到
+        猜测原因是，spring前端控制器内部也采用自动注入形式的注入依赖，
+        所以猜测，还有内部还有其他类型为CommonsMultipartResolver的文件解析器
+    -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+    </bean>
+
+    <!--配置自定义异常处理器-->
+    <bean id="beanExceptionResolver" class="cn.itcast.exception.resolver.BeanExceptionResolver"/>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <mvc:exclude-mapping path="/user/login/{id}"/>
+            <mvc:exclude-mapping path="/checkCode"/>
+            <bean id="accessInterceptor" class="cn.itcast.interceptor.AccessInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

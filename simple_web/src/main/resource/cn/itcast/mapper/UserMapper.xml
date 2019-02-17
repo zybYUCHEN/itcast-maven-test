@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--用户操作的持久层映射配置-->
+<mapper namespace="cn.itcast.mapper.UserMapper">
+    <!--查询总记录数-->
+    <select id="findTotalCount" resultType="int">
+        select count(*)
+        from user
+    </select>
+    <!--按条件查询总记录数-->
+    <select id="findTotalCounts" parameterType="user" resultType="int">
+        select count(*) from user
+        <where>
+            <if test="username!=null and username!=''">
+                and username like #{username}
+            </if>
+            <if test="address!=null and address!=''">
+                and address like #{address}
+            </if>
+            <if test="email!=null and email!=''">
+                and email like #{email}
+            </if>
+        </where>
+    </select>
+    <!--按条件分页查询每页的展示数据-->
+    <select id="findPage" parameterType="limitPage" resultType="user">
+        select *
+        from user
+        <where>
+          <if test="user!=null">
+              <if test="user.username!=null and user.username!=''">
+                  and username like #{user.username}
+              </if>
+              <if test="user.address!=null and user.address!=''">
+                  and address like #{user.address}
+              </if>
+              <if test="user.email!=null and user.email!=''">
+                  and email like #{user.email}
+              </if>
+          </if>
+        </where>
+        limit
+        #{start},
+        #{pageSize}
+    </select>
+
+    <!--根据用户id查找用户-->
+    <select id="findUserById" parameterType="int" resultType="user">
+        select *
+        from user
+        where id = #{id}
+    </select>
+
+    <!--根据用户名和密码查询用户-->
+    <select id="findUserByUsernameAndPassWord" parameterType="user" resultType="user">
+        select * from user where username=#{username} and password=#{password}
+    </select>
+    <!--添加用户-->
+    <insert id="addUser" parameterType="user">
+        insert into user
+        values (#{id}, #{username}, #{password}, #{gender}, #{age}, #{address}, #{qq}, #{email},#{photo})
+    </insert>
+
+    <!--修改用户数据-->
+    <update id="updateUser" parameterType="user">
+        update user
+        set password=#{password},
+            gender=#{gender},
+            age=#{age},
+            address= #{address},
+            qq=#{qq},
+            email=#{email}
+        where id = #{id}
+    </update>
+
+    <!--删除用户-->
+    <delete id="deleteUser" parameterType="int">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+</mapper>
